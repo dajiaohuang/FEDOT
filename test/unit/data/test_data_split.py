@@ -160,12 +160,6 @@ def test_split_data():
     assert len(test) == 1
 
 
-@pytest.mark.parametrize('data_generator, expected_output',
-                         [(get_tabular_classification_data, TABULAR_SIMPLE),
-                          (get_tabular_classification_data_with_cats, TABULAR_CATEGORICAL),
-                          (get_ts_data_to_forecast_two_elements, TS_SIMPLE),
-                          (get_text_classification_data, TEXT_SIMPLE),
-                          (get_image_classification_data, IMAGE_SIMPLE)])
 def test_stratification_uses_ceiling_for_fractional_test_size():
     """A 20% holdout of 11 rows has 3 rows, enough to include all 3 classes."""
     target = np.array([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2])
@@ -178,6 +172,12 @@ def test_stratification_uses_ceiling_for_fractional_test_size():
     assert _are_stratification_allowed(data, split_ratio=0.8)
 
 
+@pytest.mark.parametrize('data_generator, expected_output',
+                         [(get_tabular_classification_data, TABULAR_SIMPLE),
+                          (get_tabular_classification_data_with_cats, TABULAR_CATEGORICAL),
+                          (get_ts_data_to_forecast_two_elements, TS_SIMPLE),
+                          (get_text_classification_data, TEXT_SIMPLE),
+                          (get_image_classification_data, IMAGE_SIMPLE)])
 def test_default_train_test_simple(data_generator: Callable, expected_output: dict):
     """ Check if simple splitting perform correctly for all used in FEDOT data types """
     input_data = data_generator()
